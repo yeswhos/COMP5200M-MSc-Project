@@ -1,0 +1,11 @@
+//undefine This macro as it interferes with wx headers
+#ifdef This
+#undef This
+#endif
+
+#include "wx/wx.h"
+
+//re-define macro
+#define This (*this)
+
+

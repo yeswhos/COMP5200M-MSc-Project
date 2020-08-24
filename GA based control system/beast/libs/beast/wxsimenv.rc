@@ -1,0 +1,2 @@
+beast ICON "beast.ico"
+#include "wx/msw/wx.rc"

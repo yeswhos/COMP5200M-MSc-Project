@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC  -pthread  -shared -Wl,-soname,libmouse.so -o libmouse.so CMakeFiles/mouse.dir/mouse.cc.o 

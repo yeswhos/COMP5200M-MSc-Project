@@ -1,0 +1,279 @@
+
+#include <cstdlib>
+#include "beast.h"
+#include "Item.h"
+#include "world3d.cc"
+#include "loadTGATexture.h"
+
+using namespace std;
+using namespace BEAST;
+
+class MultiColourLeaf : public Item
+{
+
+public:
+
+
+  MultiColourLeaf()
+  {
+    This.Radius = 1.5f;
+    
+    float R = randval<float>(1.0);
+    if (R < 0.5)
+      This.SetColour(1.0, 0.0, 0.0);
+    else
+      This.SetColour(0.0, 1.0, 0.0);
+    
+    This.InitRandom = true;	
+  }
+  
+  virtual float Difference(Item* l)
+  {
+    float redDiff = fabsf(GetColour(0) - l->GetColour(0));
+    float greenDiff = fabsf(GetColour(1) - l->GetColour(1));
+    float blueDiff = fabsf(GetColour(2) - l->GetColour(2));
+    
+    return (redDiff + greenDiff + blueDiff) / 3.0;
+  }
+  
+  
+};
+
+const static int numColouredLeaves = 150;
+Group<MultiColourLeaf> theColouredLeaves(numColouredLeaves);
+
+
+class SortingAnt : public Animat
+{
+
+
+private:
+
+  float k1;
+  float k2;
+  float alpha;
+  float radius; //radius of detection area
+  float area;
+  float inverseArea;
+  
+  enum {NO_ITEM,
+        ITEM};
+      
+  int mode;
+  
+  MultiColourLeaf* leaf;
+  
+  float FractionOfPerceivedItems(MultiColourLeaf* l, Vector2D v)
+	{
+	  float itemSum = 0.0;
+	  for (int i = 0; i < numColouredLeaves; i++)
+		{
+			Vector2D diff = theColouredLeaves[i]->GetLocation() - v;
+			if (diff.GetLength() < radius)
+			{
+			  itemSum += 1.0 - (l->Difference(theColouredLeaves[i]) / alpha);
+			}
+		}
+		//cout << count << endl;
+    float f = inverseArea * itemSum;
+    //cout << f << endl;
+    if (f > 0.0)
+      return f;
+    else
+      return 0.0;
+  }
+  
+  
+  bool RoomToDrop()
+  {
+    for (int i = 0; i < numColouredLeaves; i++)
+    {
+      Vector2D diff = theColouredLeaves[i]->GetLocation() - GetLocation();
+      if (diff.GetLength() < 2*theColouredLeaves[i]->GetRadius())
+        return false;
+    }
+
+    return true;
+  }
+  
+  float DropProbability(float fraction)
+  {
+    float val = fraction / (k2 + fraction);
+    
+    return val * val;
+  }
+  
+  bool DropItem(MultiColourLeaf* l)
+  {
+    if (RoomToDrop())
+    {
+      float fraction = FractionOfPerceivedItems(l, GetLocation());
+      float pDrop = DropProbability(fraction);
+    
+      //cout << pDrop << endl;
+      float R = randval<float>(1.0);
+      if (R <= pDrop)
+        return true;
+      else
+        return false;
+    }
+    else
+      return false;
+  }
+  
+  float PickUpProbability(float fraction)
+  {
+    float val = k1 / (k1 + fraction);
+    
+    return val * val;
+  }
+  
+  bool PickUpItem(MultiColourLeaf* l)
+  {
+    float fraction = FractionOfPerceivedItems(l, l->GetLocation());
+    float pPickUp = PickUpProbability(fraction);
+    
+    //cout << pPickUp << endl;
+    float R = randval<float>(1.0);
+    if (R <= pPickUp)
+      return true;
+    else
+      return false;
+  }
+
+public:
+  SortingAnt()
+  {
+    k1 = 0.1;
+    k2 = 0.15;
+    alpha = 0.5;
+    area = 9;
+    radius = 1.75 * 3.0;
+    inverseArea = 1.0 / area;
+    This.InitRandom = true;
+    This.SetMinSpeed(80.0);
+    This.SetMaxSpeed(80.0);
+    mode = NO_ITEM;
+  }
+
+  virtual void Control()
+  {
+    //time_t seconds;
+    //time(&seconds);
+    
+    //srand((unsigned int) seconds);
+    float right = randval<float>(1.0);
+    float left = 1.0 - right;
+    
+	  
+    This.Controls["right"] = right;
+    This.Controls["left"] = left;
+		
+    if (mode == ITEM)
+    {
+      //cout << leaf->GetLocation().GetLength() << endl;
+    
+      if (DropItem(leaf))
+      {
+        mode = NO_ITEM;
+        cout << "Dropped item" << endl;
+        leaf->Drop();
+        leaf->SetLocation(This.GetLocation());
+      }
+      
+		
+    }  }
+  
+  // This is called when a Mouse collides with any object in the World.
+  // If the object is a Cheese, the Eaten method is called on Cheese.
+  virtual void OnCollision(WorldObject* obj) 
+  {
+	
+    if (mode == NO_ITEM)
+    {
+      MultiColourLeaf* l;
+
+      if (IsKindOf(obj,l)) {
+	      if (l->GetMode() == Item::ON_FLOOR)
+	      {
+	        if (PickUpItem(l))
+	        {
+	          if (leaf != l)
+	          {
+	            //cout << "same one!" << endl;
+	        		leaf = l;
+	        		leaf->PickUp();
+	        		mode = ITEM;
+	        		cout << "Picked up item" << endl;
+          		leaf->SetLocation(-radius - 10.0, -radius - 10.0);
+          	}
+          }
+		    }
+
+		  }
+	  }
+	  //Animat::OnCollision(obj);
+	}
+	
+	/*
+	//Draw an ant instead of a circular Animat.
+	//Animat class calls draw to create an openGL call list.
+	//We override it here to override the call list.
+	virtual void Draw()
+	{
+	  Drawable::SetColour(0.4, 0.0, 1.0, 0.0);
+	  Drawable::Draw();		// Borrow the nice shaded effect from drawable
+	  
+	  //glEnable(GL_TEXTURE_2D);
+	  //glBindTexture(GL_TEXTURE_2D, textures[0].texID);
+	  glColor4f(0.4, 0.0, 1.0, 0.0);
+	  
+	  double halfSide = cos((45.0 / 360.0) * (2 * M_PI)) * GetRadius();
+	  
+	  glBegin(GL_QUADS);
+	  {
+		  //glTexCoord2f(0.0, 0.0); 
+		  glVertex2d(-halfSide, halfSide);
+		  //glTexCoord2f(1.0, 0.0); 
+		  glVertex2d(halfSide, halfSide);
+		  //glTexCoord2f(1.0, 1.0); 
+		  glVertex2d(halfSide, -halfSide);
+		  //glTexCoord2f(0.0, 1.0); glVertex2d(-halfSide, -halfSide);
+	  }
+	  glEnd(); // direction arrow
+	  
+	  //glDisable(GL_TEXTURE_2D);
+	  
+	}
+	*/
+	
+};
+
+
+class LFSortSimulation : public Simulation
+{
+	Group<SortingAnt> theAnts;
+
+
+public:
+	LFSortSimulation():
+	theAnts(10)
+	{
+	  
+	
+		This.SetTimeSteps(-1);
+
+		This.Add("Ants", This.theAnts);
+		This.Add("Leaves", theColouredLeaves);
+		
+
+		//This.GetWorld().SetColour(1.0, 1.0, 1.0);
+	  
+		
+		cout << "Initialised" << endl;
+	}
+	
+	
+	
+};
+

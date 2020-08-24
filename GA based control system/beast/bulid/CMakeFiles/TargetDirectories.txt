@@ -1,0 +1,12 @@
+/home/beast/COMP5400M-Bio-inspired-Computing/CW1/beast/bulid/CMakeFiles/rebuild_cache.dir
+/home/beast/COMP5400M-Bio-inspired-Computing/CW1/beast/bulid/CMakeFiles/edit_cache.dir
+/home/beast/COMP5400M-Bio-inspired-Computing/CW1/beast/bulid/libs/CMakeFiles/rebuild_cache.dir
+/home/beast/COMP5400M-Bio-inspired-Computing/CW1/beast/bulid/libs/CMakeFiles/BEASTLIB.dir
+/home/beast/COMP5400M-Bio-inspired-Computing/CW1/beast/bulid/libs/CMakeFiles/edit_cache.dir
+/home/beast/COMP5400M-Bio-inspired-Computing/CW1/beast/bulid/apps/CMakeFiles/rebuild_cache.dir
+/home/beast/COMP5400M-Bio-inspired-Computing/CW1/beast/bulid/apps/CMakeFiles/beast.dir
+/home/beast/COMP5400M-Bio-inspired-Computing/CW1/beast/bulid/apps/CMakeFiles/edit_cache.dir
+/home/beast/COMP5400M-Bio-inspired-Computing/CW1/beast/bulid/projects/CMakeFiles/rebuild_cache.dir
+/home/beast/COMP5400M-Bio-inspired-Computing/CW1/beast/bulid/projects/CMakeFiles/edit_cache.dir
+/home/beast/COMP5400M-Bio-inspired-Computing/CW1/beast/bulid/projects/CMakeFiles/demos.dir
+/home/beast/COMP5400M-Bio-inspired-Computing/CW1/beast/bulid/projects/CMakeFiles/mouse.dir

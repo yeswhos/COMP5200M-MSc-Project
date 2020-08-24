@@ -1,0 +1,13 @@
+
+using namespace std;
+using namespace BEAST;
+
+template <class T>
+Sensor* NearestNonScaleXSensor()
+{
+  Sensor* s = new Sensor(Vector2D(0.0, 0.0), 0.0);
+  s->SetMatchingFunction(new MatchKindOf<T>);
+  s->SetEvaluationFunction(new EvalNearestXDist(s, 1000.0));
+  
+  return s;
+}

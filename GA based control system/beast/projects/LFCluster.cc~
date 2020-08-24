@@ -1,0 +1,228 @@
+
+
+#include <cstdlib>
+#include "beast.h"
+#include "wxbeast.h"
+
+using namespace std;
+using namespace BEAST;
+
+
+
+// Leaves are small and green
+class Leaf : public WorldObject
+{
+
+private:
+      
+  int mode;
+
+public:
+
+
+  enum {ON_FLOOR,
+        PICKED_UP};
+
+  Leaf()
+  {
+    This.Radius = 1.0f;
+    This.SetColour(ColourPalette[COLOUR_GREEN]);
+    This.InitRandom = true;	
+    mode = ON_FLOOR;
+  }
+  virtual ~Leaf(){}
+
+  int getMode()
+  {
+    return mode;
+  }
+	
+  void PickUp()
+  {
+    if (mode == ON_FLOOR)
+      mode = PICKED_UP;
+  }
+  
+  void Drop()
+  {
+    if (mode == PICKED_UP)
+      mode = ON_FLOOR;
+  }
+};
+
+const static int numLeaves = 200;
+Group<Leaf> theLeaves(numLeaves);
+
+class ClusterAnt : public Animat
+{
+
+
+private:
+
+  const static float k1 = 0.1;
+  const static float k2 = 0.15;
+  const static float alpha = 0.5;
+  const static float radius = 1.75; //radius of detection area
+  float area;
+  float inverseArea;
+  
+  enum {NO_ITEM,
+        ITEM};
+      
+  int mode;
+  
+  Leaf* leaf;
+  
+  float FractionOfPerceivedItems(Vector2D v)
+	{
+	  int count = 0;
+	  for (int i = 0; i < numLeaves; i++)
+		{
+			Vector2D diff = theLeaves[i]->GetLocation() - v;
+			if (diff.GetLength() < radius)
+			  count++;
+		}
+		//cout << count << endl;
+    float f = inverseArea * count;
+    //cout << f << endl;
+    if (f > 0)
+      return f;
+    else
+      return 0;
+  }
+  
+  
+  float DropProbability(float fraction)
+  {
+    float val = fraction / (k2 + fraction);
+    
+    return val * val;
+  }
+  
+  bool DropItem()
+  {
+    float fraction = FractionOfPerceivedItems(GetLocation());
+    float pDrop = DropProbability(fraction);
+    
+    //cout << pDrop << endl;
+    float R = randval<float>(1.0);
+    if (R <= pDrop)
+      return true;
+    else
+      return false;
+  }
+  
+  float PickUpProbability(float fraction)
+  {
+    float val = k1 / (k1 + fraction);
+    
+    return val * val;
+  }
+  
+  bool PickUpItem(Leaf* l)
+  {
+    float fraction = FractionOfPerceivedItems(l->GetLocation());
+    float pPickUp = PickUpProbability(fraction);
+    
+    //cout << pPickUp << endl;
+    float R = randval<float>(1.0);
+    if (R <= pPickUp)
+      return true;
+    else
+      return false;
+  }
+
+public:
+  ClusterAnt()
+  {
+    area = PI * (radius * radius);
+    inverseArea = 1.0 / area;
+    This.InitRandom = true;
+    This.SetMinSpeed(80.0);
+    This.SetMaxSpeed(80.0);
+    mode = NO_ITEM;
+  }
+
+  virtual void Control()
+  {
+    //time_t seconds;
+    //time(&seconds);
+    
+    //srand((unsigned int) seconds);
+    float right = randval<float>(1.0);
+    float left = 1.0 - right;
+    
+	  
+    This.Controls["right"] = right;
+    This.Controls["left"] = left;
+    
+		
+    if (mode == ITEM)
+    {
+      //cout << leaf->GetLocation().GetLength() << endl;
+      if (DropItem())
+      {
+        mode = NO_ITEM;
+        cout << "Dropped item" << endl;
+        leaf->Drop();
+        leaf->SetLocation(This.GetLocation());
+      }
+      
+		  
+    }  }
+  
+  // This is called when a Mouse collides with any object in the World.
+  // If the object is a Cheese, the Eaten method is called on Cheese.
+  virtual void OnCollision(WorldObject* obj) 
+  {
+	
+    if (mode == NO_ITEM)
+    {
+      Leaf* l;
+
+      if (IsKindOf(obj,l)) {
+	      if (l->getMode() == Leaf::ON_FLOOR)
+	      {
+	        if (PickUpItem(l))
+	        {
+	          if (leaf != l)
+	          {
+	            leaf = l;
+	        		leaf->PickUp();
+	        		mode = ITEM;
+	        		cout << "Picked up item" << endl;
+	        		//put them far away so they can't be detected
+          		leaf->SetLocation(-radius - 10.0, -radius - 10.0);
+          	}
+          }
+		    }
+
+		  }
+	  }
+	  Animat::OnCollision(obj);
+	}
+	
+	
+};
+
+class LFClusterSimulation : public Simulation
+{
+	Group<ClusterAnt> theAnts;
+
+
+public:
+	LFClusterSimulation():
+	theAnts(10)
+	{
+    wxFrame* frame;
+    //continuous simluation
+		This.SetTimeSteps(-1);
+
+		This.Add("Ants", This.theAnts);
+		This.Add("Leaves", theLeaves);
+	}
+	
+	
+	
+};
+

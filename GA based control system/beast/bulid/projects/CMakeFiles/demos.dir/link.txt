@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC  -pthread  -shared -Wl,-soname,libdemos.so -o libdemos.so CMakeFiles/demos.dir/demos.cc.o 
