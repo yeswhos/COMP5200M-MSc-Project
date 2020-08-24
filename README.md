@@ -2,14 +2,23 @@
 # MSc-Project
 
 SW06 - Control Systems for wrestling robots.
+
 Title of project: Control Systems (AI) for wrestling robots.
+
 Project code: SW06
-Supervisor: Sam Wilson
+
+Supervisor: Sam Wilson, Amy Lowe
+
 Appropriate types of project: Exploratory Software
+
 Area of interest: Robotics, Control Systems, Software Design, Artificial Intelligence, Arduino, Microcontrollers, Autonomous Systems
+
 Appropriate for degree program: Any
+
 Appropriate number of credits: Any
+
 Multiple projects can be considered: Up to 8
+
 Prerequisites: Programming Skills
 
 
