@@ -10,4 +10,5 @@
 	In the "build" directory you are currently in there are two new directories called "apps" and "projects". The "apps" directory contains the executable for the beast program called "beast" and the "projects" directory contain the required dynamic library needed to run the program called "libdemos.so".
  	From the build directory run the beast executable and pass the path to the dynamic library as a prameter as follows "./apps/beast ./projects/libdemos.so"
 	When inside the program verify that you have a working build by going to "File" and then "Start simulation: Shrew"
+The main code for this project is in 'beast/projects/shrew.cc'
 2. Demo file store the python codes for plotting.           
