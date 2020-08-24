@@ -1,0 +1,150 @@
+A
+{
+	COLOR: #330066;
+	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+	TEXT-DECORATION: none
+}
+A:hover
+{
+	COLOR: #660099
+}
+A:active
+{
+	COLOR: #9900BB
+}
+BODY
+{
+	FONT-SIZE: 12px;
+	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+	BACKGROUND: #FFFFFF;
+	COLOR: #444444
+}
+H1
+{
+	FONT-SIZE: 30px;
+	COLOR: #660099;
+ 	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+}
+H2
+{
+	FONT-SIZE: 25px;
+	COLOR: #660099;
+ 	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+	FONT-VARIANT: small-caps;
+}
+H3
+{
+	FONT-SIZE: 20px;
+	COLOR: #660099;
+ 	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+}
+H4
+{
+	FONT-SIZE: 15px;
+	COLOR: #660099;
+ 	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+}
+H5
+{
+	FONT-WEIGHT: bolder;
+	FONT-SIZE: 12px;
+ 	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+	COLOR: #660099;
+}
+
+SMALL
+{
+	FONT-SIZE: 11px;
+ 	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+}
+
+TABLE
+{
+	FONT-SIZE: 12px;
+ 	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+}
+
+P
+{
+	FONT-SIZE: 12px;
+	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+	TEXT-ALIGN: justify;
+}
+
+LI
+{
+	TEXT-ALIGN: justify;
+}
+
+TD
+{
+	FONT-SIZE: 12px;
+ 	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+}
+
+FORM
+{
+	FONT-SIZE: 12px;
+ 	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+}
+
+TEXTAREA
+{
+	FONT-SIZE: 12px;
+ 	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+}
+
+INPUT
+{
+	FONT-SIZE: 12px;
+ 	FONT-FAMILY: Tahoma, Verdana, Arial, Sans-serif;
+}
+H1 { text-align: center; }
+CAPTION { font-weight: bold }
+A.qindex {}
+A.qindexRef {}
+A.el { text-decoration: none; font-weight: bold }
+A.elRef { font-weight: bold }
+A.code { text-decoration: none; font-weight: normal; color: #4444ee }
+A.codeRef { font-weight: normal; color: #4444ee }
+A:hover { text-decoration: none; background-color: #f2f2ff }
+DL.el { margin-left: -1cm }
+DIV.fragment { width: 100%; border: none; background-color: #eeeeee }
+DIV.ah { background-color: black; font-weight: bold; color: #ffffff; margin-bottom: 3px; margin-top: 3px }
+TD.md { background-color: #f2f2ff; font-weight: bold; }
+TD.mdname1 { background-color: #f2f2ff; font-weight: bold; color: #602020; }
+TD.mdname { background-color: #f2f2ff; font-weight: bold; color: #602020; width: 600px; }
+DIV.groupHeader { margin-left: 16px; margin-top: 12px; margin-bottom: 6px; font-weight: bold }
+DIV.groupText { margin-left: 16px; font-style: italic; font-size: smaller }
+BODY { background: white }
+TD.indexkey { 
+   background-color: #eeeeff; 
+   font-weight: bold; 
+   padding-right  : 10px; 
+   padding-top    : 2px; 
+   padding-left   : 10px; 
+   padding-bottom : 2px; 
+   margin-left    : 0px; 
+   margin-right   : 0px; 
+   margin-top     : 2px; 
+   margin-bottom  : 2px  
+}
+TD.indexvalue { 
+   background-color: #eeeeff; 
+   font-style: italic; 
+   padding-right  : 10px; 
+   padding-top    : 2px; 
+   padding-left   : 10px; 
+   padding-bottom : 2px; 
+   margin-left    : 0px; 
+   margin-right   : 0px; 
+   margin-top     : 2px; 
+   margin-bottom  : 2px  
+}
+span.keyword       { color: #008000 }
+span.keywordtype   { color: #604020 }
+span.keywordflow   { color: #e08000 }
+span.comment       { color: #800000 }
+span.preprocessor  { color: #806020 }
+span.stringliteral { color: #002080 }
+span.charliteral   { color: #008080 }

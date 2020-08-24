@@ -1,4 +1,4 @@
-1. beast is the file for BEAST source code. The setp for installing and compiling beast as follow steps.
+1. beast is the folder for BEAST source code. The setp for installing and compiling beast as follow steps.
 	'cd beast/build'. If the build directory is not there, simply create it: 'mkdir build.'
 	Call CMake: 'ccmake  ..'
 	Configure: 'c'
@@ -11,4 +11,5 @@
  	From the build directory run the beast executable and pass the path to the dynamic library as a prameter as follows "./apps/beast ./projects/libdemos.so"
 	When inside the program verify that you have a working build by going to "File" and then "Start simulation: Shrew"
 The main code for this project is in 'beast/projects/shrew.cc'
-2. Demo file store the python codes for plotting.           
+More information about BEAST can be found at doc folder.
+2. Demo folder stores the python codes for plotting.           
